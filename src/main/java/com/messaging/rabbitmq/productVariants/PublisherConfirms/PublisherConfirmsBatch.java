@@ -34,7 +34,7 @@ public class PublisherConfirmsBatch {
                     outstandingMessageCount++;
     
                     if (outstandingMessageCount == batchSize) {
-                        channel.waitForConfirmsOrDie(5_000);
+                        channel.waitForConfirmsOrDie(5000);
                         outstandingMessageCount = 0;
                     }
                 }

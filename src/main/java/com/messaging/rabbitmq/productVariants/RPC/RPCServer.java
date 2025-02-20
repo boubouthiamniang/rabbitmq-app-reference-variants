@@ -7,7 +7,7 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
 
 public class RPCServer {
-    private static final String RPC_QUEUE_NAME = "queue.rpc.reply";
+    private static final String RPC_REQUEST_QUEUE_NAME = "queue.rpc.reply";
 
     public static void main(String[] argv) throws Exception {
         
@@ -17,7 +17,8 @@ public class RPCServer {
              Channel channel = connection.createChannel()) {
             
             // Declare the queue
-            channel.queueDeclare(RPC_QUEUE_NAME, false, false, false, null);
+            channel.queueDeclare(RPC_REQUEST_QUEUE_NAME, false, false, false, null);
+            channel.queuePurge(RPC_REQUEST_QUEUE_NAME);
             channel.basicQos(1);  // Limit to 1 message at a time per consumer
 
             // Create a callback to process incoming requests
@@ -42,7 +43,7 @@ public class RPCServer {
             };
 
             // Set up the consumer
-            channel.basicConsume(RPC_QUEUE_NAME, false, deliverCallback, consumerTag -> { });
+            channel.basicConsume(RPC_REQUEST_QUEUE_NAME, false, deliverCallback, consumerTag -> { });
         }
     }
 

@@ -26,6 +26,8 @@ public class RPCClient {
         try (Connection connection = factory.newConnection();
             Channel channel = connection.createChannel()) {
 
+            channel.queueDeclare(RPC_REPLY_QUEUE_NAME, true, false, false, null);
+
             String correlationId = UUID.randomUUID().toString();
 
             // Create properties with correlation ID and reply queue
