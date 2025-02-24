@@ -7,6 +7,7 @@ import com.rabbitmq.client.Channel;
 public class Publisher {
   
   private static final String EXCHANGE_NAME = "exchange.xp";
+  private static final String ROUTING_KEY = "routingKeyXp";
 
   public static void main(String[] argv) throws Exception {
     ConnectionFactory factory = new ConnectionFactory();
@@ -17,7 +18,7 @@ public class Publisher {
 
         String message = "Thank you mario, but our princess is in another castle";
 
-        channel.basicPublish(EXCHANGE_NAME, "", null, message.getBytes("UTF-8"));
+        channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, null, message.getBytes("UTF-8"));
     }
   }
 }
